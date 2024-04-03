@@ -11,6 +11,8 @@ const SECRET_KEY = crypto.randomBytes(256).toString("hex");
 
 app.use(bodyParser.json());
 
+app.use(express.static("public"));
+
 // ? 간단한 사용자 데이터베이스 대용
 const users = [
   {
@@ -29,11 +31,11 @@ app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
   // 사용자 검증
-  const users = users.find(
+  const user = users.find(
     (u) => u.username === username && u.password === password
   );
 
-  if (users) {
+  if (user) {
     // JWT 생성
     const token = jwt.sign(
       { userId: user.id, username: user.username },
