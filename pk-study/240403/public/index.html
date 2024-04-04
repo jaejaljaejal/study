@@ -41,6 +41,7 @@
               console.log("Success:", data);
               // JWT 처리
               localStorage.setItem("token", data.token);
+              window.location.href = "/check.html"; // 페이지 이동
             })
             .catch((error) => {
               console.error("Error:", error);
