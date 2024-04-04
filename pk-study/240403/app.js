@@ -26,6 +26,13 @@ const users = [
   },
 ];
 
+// JWT 토큰 디코딩
+function parseJwt(token) {
+  var base64Payload = token.split(".")[1]; // 토큰의 두 번째 부분(페이로드)을 가져옴
+  var payload = Buffer.from(base64Payload, "base64"); // Base64 디코딩
+  return JSON.parse(payload); // JSON 객체로 파싱
+}
+
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -44,6 +51,8 @@ app.post("/login", (req, res) => {
     res.json({ token });
     console.log(`User ${username} logged in`);
     console.log(`Token: ${token}`);
+    let decoded = parseJwt(token);
+    console.log(decoded);
   } else {
     res.status(401).send("Username or password is incorrect");
   }
@@ -52,3 +61,5 @@ app.post("/login", (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
+
+// var token = "여기에 JWT 토큰을 입력하세요";
