@@ -30,9 +30,13 @@
           })
           .then((data) => {
             console.log(data.message); // 유효한 토큰 메시지 처리
+            document.getElementById("verificationResult").textContent =
+              data.message;
           })
           .catch((error) => {
             console.error(error);
+            document.getElementById("verificationResult").textContent =
+              "토큰 검증 중 오류가 발생했습니다.";
             // 리프레시 토큰으로 액세스 토큰 갱신 요청
             fetch("/refresh-token", {
               method: "POST",
@@ -45,7 +49,6 @@
               .then((data) => {
                 console.log("New token received:", data);
                 localStorage.setItem("accessToken", data.accessToken); // 갱신된 액세스 토큰 저장
-                // 필요한 추가 처리...
               })
               .catch((refreshError) => {
                 console.error("Refresh token error:", refreshError);
