@@ -1,7 +1,7 @@
 const express = require("express");
-const badyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const bodyParser = require("body-parser");
 
 const app = express();
 const port = 3000;
@@ -42,6 +42,8 @@ app.post("/login", (req, res) => {
       { expiresIn: "1h" }
     );
     res.json({ token });
+    console.log(`User ${username} logged in`);
+    console.log(`Token: ${token}`);
   } else {
     res.status(401).send("Username or password is incorrect");
   }
