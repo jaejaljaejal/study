@@ -2,7 +2,6 @@ const express = require("express");
 const badyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const bodyParser = require("body-parser");
 
 const app = express();
 const port = 3000;
