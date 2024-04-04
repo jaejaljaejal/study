@@ -7,6 +7,8 @@ const app = express();
 const port = 3000;
 // ! JWT 비밀 키
 const SECRET_KEY = crypto.randomBytes(256).toString("hex");
+const ACCESS_TOKEN_SECRET = crypto.randomBytes(256).toString("hex");
+const REFRESH_TOKEN_SECRET = crypto.randomBytes(256).toString("hex");
 
 app.use(bodyParser.json());
 
@@ -48,9 +50,22 @@ app.post("/login", (req, res) => {
       SECRET_KEY,
       { expiresIn: "1h" }
     );
-    res.json({ token });
-    console.log(`User ${username} logged in`);
-    console.log(`Token: ${token}`);
+    const accessToken = jwt.sign(
+      {
+        /* 페이로드 */
+      },
+      ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
+    const refreshToken = jwt.sign(
+      {
+        /* 페이로드 */
+      },
+      REFRESH_TOKEN_SECRET,
+      { expiresIn: "7d" }
+    );
+    res.json({ token, accessToken, refreshToken });
+
     let decoded = parseJwt(token);
     console.log(decoded);
   } else {
