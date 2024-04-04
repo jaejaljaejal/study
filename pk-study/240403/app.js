@@ -83,8 +83,22 @@ app.post("/verify", (req, res) => {
   });
 });
 
+app.post("/refresh-token", (req, res) => {
+  const { refreshToken } = req.body;
+  jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: "Refresh Token is invalid" });
+    }
+    // 리프레시 토큰이 유효한 경우, 새로운 액세스 토큰 발급
+    const newAccessToken = jwt.sign(
+      { userId: decoded.userId },
+      ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
+    res.json({ accessToken: newAccessToken });
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
-
-// var token = "여기에 JWT 토큰을 입력하세요";
