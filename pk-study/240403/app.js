@@ -74,10 +74,11 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/verify", (req, res) => {
-  const token = req.headers.authorization.split(" ")[1]; // 'Bearer TOKEN_STRING'에서 토큰 추출
+  const token = req.headers.authorization.split(" ")[1];
   jwt.verify(token, ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) {
-      return res.json({ message: "유효하지 않은 jwt 토큰입니다" });
+      // 유효하지 않은 토큰인 경우, HTTP 상태 코드 401과 함께 메시지를 반환
+      return res.status(401).json({ message: "유효하지 않은 jwt 토큰입니다" });
     }
     res.json({ message: "유효한 jwt 토큰입니다" });
   });
