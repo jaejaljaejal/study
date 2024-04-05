@@ -55,7 +55,7 @@ app.post("/login", (req, res) => {
         /* 페이로드 */
       },
       ACCESS_TOKEN_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "10s" }
     );
     const refreshToken = jwt.sign(
       {
