@@ -49,6 +49,20 @@
               .then((data) => {
                 console.log("New token received:", data);
                 localStorage.setItem("accessToken", data.accessToken); // 갱신된 액세스 토큰 저장
+                // 여기에 새 토큰으로 /verify 호출하는 로직 추가
+                return fetch("/verify", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${data.accessToken}`,
+                  },
+                });
+              })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(data.message); // 유효한 새 토큰 메시지 처리
+                document.getElementById("verificationResult").textContent =
+                  data.message;
               })
               .catch((refreshError) => {
                 console.error("Refresh token error:", refreshError);
